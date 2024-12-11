@@ -29,7 +29,7 @@ class Admin::ArticlesController < ApplicationController
       if @admin_article.save
         # หากสถานะของ Content ยังเป็น draft, เปลี่ยนสถานะเป็น in_review
         @admin_article.content.submit_for_review! if @admin_article.content.draft?
-
+        NotificationMailer.send_submission_notification(@admin_article).deliver_now
         format.html { redirect_to @admin_article, notice: "Article was successfully created." }
         format.json { render :show, status: :created, location: @admin_article }
       else
@@ -49,7 +49,7 @@ class Admin::ArticlesController < ApplicationController
         elsif @admin_article.content.in_review?
           @admin_article.content.approve!  # หรือ @admin_article.content.reject! ขึ้นอยู่กับสถานการณ์
         end
-
+        NotificationMailer.send_submission_notification(@admin_article).deliver_now
         format.html { redirect_to @admin_article, notice: "Article was successfully updated." }
         format.json { render :show, status: :ok, location: @admin_article }
       else
