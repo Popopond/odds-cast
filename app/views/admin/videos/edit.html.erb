@@ -1,0 +1,41 @@
+<div class="container mx-auto mt-8">
+  <h1 class="text-3xl font-bold mb-4"><%= action_name.capitalize %> Video</h1>
+  <div class="bg-white shadow-md rounded p-6">
+    <%= form_with(model: [:admin, @video], class: "space-y-4", local: true) do |form| %>
+      <% if @video.errors.any? %>
+        <div class="bg-red-100 text-red-700 px-4 py-2 rounded">
+          <h2><%= pluralize(@video.errors.count, "error") %> prohibited this video from being saved:</h2>
+          <ul>
+            <% @video.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div>
+        <%= form.label :title, class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :title, class: "w-full mt-1 px-3 py-2 border rounded" %>
+      </div>
+
+      <div>
+        <%= form.label :description, class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_area :description, class: "w-full mt-1 px-3 py-2 border rounded" %>
+      </div>
+
+      <div>
+        <%= form.label :cover, class: "block text-sm font-medium text-gray-700" %>
+        <%= form.file_field :cover, class: "w-full mt-1 px-3 py-2 border rounded" %>
+      </div>
+
+      <div>
+        <%= form.label :video_url, class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :video_url, class: "w-full mt-1 px-3 py-2 border rounded" %>
+      </div>
+
+      <div>
+        <%= form.submit class: "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" %>
+      </div>
+    <% end %>
+  </div>
+</div>

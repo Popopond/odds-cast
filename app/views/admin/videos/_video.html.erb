@@ -1,0 +1,23 @@
+<div id="<%= dom_id video %>">
+  <p>
+    <strong>Title:</strong>
+    <%= video.title %>
+  </p>
+
+  <p>
+    <strong>cover:</strong>
+    <%= video.cover %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= video.description %>
+  </p>
+
+   <p>
+    <strong>video_url:</strong>
+    <%= video.video_url %>
+  </p>
+  <%= video_tag video.cover if video.cover.attached? %>
+
+</div>
