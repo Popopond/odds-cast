@@ -8,7 +8,8 @@
   <% @admin_articles.each do |admin_article| %>
     <div class="border rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
       <div class="flex items-center mb-4">
-        <%= image_tag(admin_article.content.photo.attached? ? admin_article.content.photo.variant(resize: "150x150") : "default_image.png", class: "w-24 h-24 object-cover rounded-full mr-4") %>
+        <%= image_tag(admin_article.content.photo.attached? ? admin_article.content.photo : "", class: "w-24 h-24 object-cover rounded-full mr-4") %>
+
         <div class="flex-grow">
           <h2 class="text-2xl font-semibold text-gray-800"><%= admin_article.title %></h2>
           <p class="text-sm text-gray-600"><%= admin_article.description.truncate(100) %></p>

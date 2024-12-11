@@ -26,7 +26,8 @@ class Admin::ArticlesController < ApplicationController
     @admin_article = Admin::Article.new(admin_article_params)
 
     respond_to do |format|
-      if @admin_article.save
+      if @admin_article.valid?
+        @admin_article.save
         # หากสถานะของ Content ยังเป็น draft, เปลี่ยนสถานะเป็น in_review
         @admin_article.content.submit_for_review! if @admin_article.content.draft?
         NotificationMailer.send_submission_notification(@admin_article).deliver_now

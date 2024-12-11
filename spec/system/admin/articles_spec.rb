@@ -80,6 +80,17 @@ RSpec.describe "Articles management", type: :feature do
     article = Admin::Article.last  # Fetch the last created article
     expect(article.content.state).to eq('in_review')  # ตรวจสอบสถานะที่แสดง
   end
+  it "shows an error when the title contains inappropriate language" do
+    visit 'admin/articles/new'
+  
+    fill_in 'Title', with: 'This is a fuck example'  # ใช้คำหยาบ
+    fill_in 'Description', with: 'Test description'
+    attach_file('Photo', './spec/fixtures/test1.jpeg')
+  
+    click_on 'Submit'
+  
+    expect(page).to have_content('Title contains inappropriate language')  # ตรวจสอบว่าแสดงข้อความผิดพลาด
+  end
   
   
 end
