@@ -43,21 +43,26 @@ class Admin::ArticlesController < ApplicationController
   def update
     respond_to do |format|
       if @admin_article.update(admin_article_params)
-        # หากสถานะของ Content ถูกเปลี่ยนแปลง, เปลี่ยนสถานะให้เป็นตามนั้น
-        if @admin_article.content.draft?
-          @admin_article.content.submit_for_review!
-        elsif @admin_article.content.in_review?
-          @admin_article.content.approve!  # หรือ @admin_article.content.reject! ขึ้นอยู่กับสถานการณ์
+        # ตรวจสอบและเปลี่ยนสถานะของ Content
+        if @admin_article.content.draft?  # หากสถานะเป็น draft
+          @admin_article.content.submit_for_review!  # เปลี่ยนเป็น in_review
+        
         end
+  
+        # ส่งอีเมลแจ้งเตือน
         NotificationMailer.send_submission_notification(@admin_article).deliver_now
+  
+        # รีไดเรกต์ไปยังหน้าแสดงผล
         format.html { redirect_to @admin_article, notice: "Article was successfully updated." }
         format.json { render :show, status: :ok, location: @admin_article }
       else
+        # หากไม่สำเร็จให้แสดงหน้าแก้ไขพร้อมข้อผิดพลาด
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @admin_article.errors, status: :unprocessable_entity }
       end
     end
   end
+  
  
 
   # DELETE /admin/articles/1 or /admin/articles/1.json

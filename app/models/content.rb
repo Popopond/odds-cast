@@ -8,7 +8,7 @@ class Content < ApplicationRecord
 
   # เพิ่ม methods ที่ใช้ในการเปลี่ยนสถานะ
   def submit_for_review!
-    update!(state: :in_review)
+    update!(state: :in_review)  # ใช้การอัพเดตสถานะเป็น 'in_review'
   end
 
   def approve!
