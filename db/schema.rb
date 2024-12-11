@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_11_025321) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_11_033541) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -67,6 +67,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_11_025321) do
     t.string "contentable_type", null: false
     t.bigint "contentable_id", null: false
     t.string "photo"
+    t.integer "state", default: 0
     t.index ["contentable_type", "contentable_id"], name: "index_contents_on_contentable"
   end
 
