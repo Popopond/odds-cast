@@ -1,18 +1,21 @@
+# app/models/content.rb
 class Content < ApplicationRecord
   belongs_to :contentable, polymorphic: true
   has_one_attached :photo
-  enum :state, {draft: 0, in_review: 1, published: 2} do
+  
+  # กำหนด enum state ด้วย stateful_enum
+  enum :state, { draft: 0, in_review: 1, published: 2 }, default: :draft
 
-    event :submit_for_review do
-      transition draft: :in_review
-    end
+  # เพิ่ม methods ที่ใช้ในการเปลี่ยนสถานะ
+  def submit_for_review!
+    update!(state: :in_review)
+  end
 
-    event :approve do
-      transition in_review: :published
-    end
+  def approve!
+    update!(state: :published)
+  end
 
-    event :reject do
-      transition in_review: :draft
-    end
+  def reject!
+    update!(state: :draft)
   end
 end

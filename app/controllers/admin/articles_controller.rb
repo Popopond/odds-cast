@@ -27,6 +27,9 @@ class Admin::ArticlesController < ApplicationController
 
     respond_to do |format|
       if @admin_article.save
+        # หากสถานะของ Content ยังเป็น draft, เปลี่ยนสถานะเป็น in_review
+        @admin_article.content.submit_for_review! if @admin_article.content.draft?
+
         format.html { redirect_to @admin_article, notice: "Article was successfully created." }
         format.json { render :show, status: :created, location: @admin_article }
       else
@@ -40,6 +43,13 @@ class Admin::ArticlesController < ApplicationController
   def update
     respond_to do |format|
       if @admin_article.update(admin_article_params)
+        # หากสถานะของ Content ถูกเปลี่ยนแปลง, เปลี่ยนสถานะให้เป็นตามนั้น
+        if @admin_article.content.draft?
+          @admin_article.content.submit_for_review!
+        elsif @admin_article.content.in_review?
+          @admin_article.content.approve!  # หรือ @admin_article.content.reject! ขึ้นอยู่กับสถานการณ์
+        end
+
         format.html { redirect_to @admin_article, notice: "Article was successfully updated." }
         format.json { render :show, status: :ok, location: @admin_article }
       else
@@ -48,6 +58,7 @@ class Admin::ArticlesController < ApplicationController
       end
     end
   end
+ 
 
   # DELETE /admin/articles/1 or /admin/articles/1.json
   def destroy
@@ -66,6 +77,6 @@ class Admin::ArticlesController < ApplicationController
   end
 
   def admin_article_params
-    params.require(:admin_article).permit(:title, :description, :photo, content_attributes: [:title, :description, :photo])
+    params.require(:admin_article).permit(:title, :description, :photo, content_attributes: [:title, :description, :photo, :state])
   end
 end

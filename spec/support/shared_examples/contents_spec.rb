@@ -2,7 +2,7 @@ RSpec.shared_examples "Contents" do |contentable, contents_path|
   let(:new_button) { "New #{contentable}" }
   let(:create_button) { "Submit" }  # เปลี่ยนคำว่า 'Create article' เป็น 'Submit'
 
-  scenario "contents" do
+  scenario "user create contents" do
     visit contents_path
     click_on new_button
     fill_in 'Title', with: 'test7'

@@ -61,4 +61,20 @@ RSpec.describe "Articles management", type: :feature do
 
     expect(page).not_to have_content('Test Article')
   end
+  it "allows changing the state of an article" do
+    visit 'admin/articles/new'
+  
+    fill_in 'Title', with: 'Test Article'
+    fill_in 'Description', with: 'Test description'
+    attach_file('Photo', './spec/fixtures/test1.jpeg')  # หากคุณต้องการอัพโหลดภาพ
+  
+    select 'In review', from: 'State'
+  
+    click_on 'Submit'
+  
+    expect(page).to have_content('Test Article')
+    expect(page).to have_content('Test description')
+    expect(page).to have_content('In review')  # ตรวจสอบสถานะที่แสดง
+  end
+  
 end
