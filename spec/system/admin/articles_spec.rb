@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "Articles management", type: :feature do
+  it_should_behave_like "Contents"
   before do
     # Create an article to be used in other tests
     @article = Admin::Article.create!(
