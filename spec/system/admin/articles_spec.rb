@@ -1,12 +1,13 @@
 require "rails_helper"
 
 RSpec.describe "Articles management", type: :feature do
-  it_behaves_like "Contents", Admin::Article, "/admin"
+  it_behaves_like "Contents", 'article', '/admin/articles'
+
+
   before do
     # Create an article to be used in other tests
     @article = Admin::Article.create(
-      content_attributes: { title: "Test Article",
-      description: "Test description" }
+      content_attributes: { title: "Test Article", description: "Test description" }
     )
   end
 
@@ -22,7 +23,6 @@ RSpec.describe "Articles management", type: :feature do
 
     expect(page).to have_content('test7')
     expect(page).to have_content('test7777')
-      
   end
 
   it "lists articles with images" do
