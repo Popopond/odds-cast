@@ -63,18 +63,23 @@ RSpec.describe "Articles management", type: :feature do
   end
   it "allows changing the state of an article" do
     visit 'admin/articles/new'
-  
+    
     fill_in 'Title', with: 'Test Article'
     fill_in 'Description', with: 'Test description'
     attach_file('Photo', './spec/fixtures/test1.jpeg')  # หากคุณต้องการอัพโหลดภาพ
-  
+    
     select 'In review', from: 'State'
-  
+    
     click_on 'Submit'
   
+    # Verify article details are displayed
     expect(page).to have_content('Test Article')
     expect(page).to have_content('Test description')
-    expect(page).to have_content('In review')  # ตรวจสอบสถานะที่แสดง
+  
+    # Fetch the latest article from the database and check its state
+    article = Admin::Article.last  # Fetch the last created article
+    expect(article.content.state).to eq('in_review')  # ตรวจสอบสถานะที่แสดง
   end
+  
   
 end

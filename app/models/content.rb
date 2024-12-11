@@ -18,4 +18,5 @@ class Content < ApplicationRecord
   def reject!
     update!(state: :draft)
   end
+  
 end

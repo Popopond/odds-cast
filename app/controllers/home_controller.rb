@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def index
-    @articles = Article.joins(:content).where(contents: { state: :published })
+    @articles = Admin::Article.joins(:content).where(contents: { state: Content.states[:published] })
   end
 end
